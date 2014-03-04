@@ -17,7 +17,7 @@
    - restart memcached
   when: ansible_os_family == "RedHat"
 
-- name: update the memcached configuration file 
+- name: update the memcached configuration file
   template: src=memcached_debian.j2 dest=/etc/memcached.conf
   notify: restart memcached
   when: ansible_os_family == "Debian"
