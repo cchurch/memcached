@@ -33,6 +33,19 @@ available memory.
 	  roles:
 	  - {role: cchurch.memcached, memcached_port: 11244, memcached_cache_size: 512 }
 
+
+Testing
+-------
+
+Run "vagrant up" to create the defined VMs in the Vagrantfile and to provision the ```memcached.yml``` playbook, which imports this role.
+
+At the moment, there are defined the following boxes:
+
+* ```debian-720```: Debian 7.2.0 from Chef's Bento project.
+* ```ubuntu-1204```: Ubuntu 12.04 from Chef's Bento project.
+
+More boxes can be added by adding a new entry in the ```boxes``` array in the Vagrantfile. No other change should be necessary.
+
 Dependencies
 ------------
 
