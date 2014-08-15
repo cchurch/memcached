@@ -34,10 +34,10 @@ script:
 
   # Test memcached connection
   - >
-  echo stats | nc 127.0.0.1 11211
-  | grep -q 'STAT'
-  && (echo 'Availability test: pass' && exit 0)
-  || (echo 'Availability test: fail' && exit 1)
+    echo stats | nc 127.0.0.1 11211
+    | grep -q 'STAT'
+    && (echo 'Availability test: pass' && exit 0)
+    || (echo 'Availability test: fail' && exit 1)
 
 notifications:
   email: false
