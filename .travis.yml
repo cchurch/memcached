@@ -5,7 +5,10 @@ python: "2.7"
 before_install:
   - sudo apt-get update -qq
 
-  # Remove memcached. Completely and totally.
+  # Install netcat
+  - sudo apt-get install netcat-traditional
+
+  # Remove memcached
   - sudo apt-get remove --purge memcached
 
 install:
@@ -28,6 +31,13 @@ script:
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
+
+  # Test memcached connection
+  ->
+  echo stats | nc 127.0.0.1 11211
+  | grep -q 'STAT'
+  && (echo 'Availability test: pass' && exit 0)
+  || (echo 'Availability test: fail' && exit 1)
 
 notifications:
   email: false
