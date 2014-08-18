@@ -36,5 +36,8 @@
   tags: [configuration, memcached, memcached-local-port-range]
 
 - name: start and enable service
-  service: name=memcached state=started enabled=yes
+  service:
+    name: memcached
+    state: started
+    enabled: yes
   tags: [configuration, memcached, memcached-start-enable-service]
