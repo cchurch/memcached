@@ -3,7 +3,7 @@
 - name: install package
   apt:
     name: memcached
-    state: present
+    state: latest
     update_cache: yes
   tags: [configuration, memcached, memcached-install]
 
