@@ -1,49 +1,43 @@
-memcached
-=========
+## memcached [![Build Status](https://travis-ci.org/Oefenweb/ansible-memcached.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-memcached) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-memcached-blue.svg)](https://galaxy.ansible.com/list#/roles/1354)
 
-This role installs a memcached server on the target host.
+Set up a memcached server in Debian-like systems.
 
-Requirements
-------------
-
-This role requires Ansible 1.4 or higher, and platform requirements are listed
-in the metadata file.
-
-Role Variables
---------------
-
-The variables that can be passed to this role and a brief description about
-each are as follows:
-
-	memcached_host: 127.0.0.1       # The host/IP on which memcached server should be listening
-	memcached_port: 11211           # The port on which memcached server should be listening
-	memcached_max_conn: 1024        # The number of max concurrent connections it shoud accept
-	memcached_cache_size: 64        # The cache size
-	memcached_fs_file_max: 756024   # The kernel paramter for max number of file handles
-	memcached_options: "-v"         # Extra command line options for memcached
-
-Example
--------
-
-The following play configures memcached with a different port number and
-available memory.
-
-	- hosts: all
-	  sudo: true
-	  roles:
-	  - {role: cchurch.memcached, memcached_port: 11244, memcached_cache_size: 512 }
-
-Dependencies
-------------
+#### Requirements
 
 None
 
-License
--------
+#### Variables
+
+ * `memcached_logfile` [default: `/var/log/memcached.log`]: Log output to
+ * `memcached_host` [default: `127.0.0.1`]: The IP address on which the server should be listening
+ * `memcached_port` [default: `11211`]: The port on which the server should be listening
+ * `memcached_max_connections` [default: `1024`]: The number of max concurrent connections it should accept
+ * `memcached_memory_cap` [default: `64`]: The memory cap
+ * `memcached_fs_file_max` [default: `false`]: The system file descriptor limit
+ * `memcached_net_ipv4_ip_local_port_range` [default: `false`]: The system IP port limits
+ * `memcached_options` [default: `''`]: Extra command line options for memcached
+
+## Dependencies
+
+None
+
+#### Example
+
+```yaml
+---
+- hosts: all
+  roles:
+  - memcached
+```
+
+#### License
 
 BSD
 
-Author Information
-------------------
+#### Author Information
 
-Chris Church (forked from Benno Joy)
+Mischa ter Smitten (based on work of Benno Joy and Chris Churc)
+
+#### Feedback, bug-reports, requests, ...
+
+Are [welcome](https://github.com/Oefenweb/ansible-memcached/issues)!

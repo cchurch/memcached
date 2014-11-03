@@ -1,29 +1,43 @@
 ---
+# tasks file for memcached
+- name: install package
+  apt:
+    name: memcached
+    state: latest
+    update_cache: yes
+  tags: [configuration, memcached, memcached-install]
 
-- name: install the memcached packages
-  yum: name={{ item }} state=present
-  with_items: memcached_redhat_pkgs
-  when: ansible_os_family == "RedHat"
-
-- name: install the memcached packages
-  apt: name={{ item }} state=present update_cache=yes
-  with_items: memcached_ubuntu_pkgs
-  environment: env
-  when: ansible_os_family == "Debian"
-
-- name: update the memcached configuration file
-  template: src=memcached_redhat.j2 dest=/etc/sysconfig/memcached
-  notify:
-   - restart memcached
-  when: ansible_os_family == "RedHat"
-
-- name: update the memcached configuration file 
-  template: src=memcached_debian.j2 dest=/etc/memcached.conf
+- name: update configuration file
+  template:
+    src: etc/memcached.conf.j2
+    dest: /etc/memcached.conf
+    owner: root
+    group: root
+    mode: 0644
   notify: restart memcached
-  when: ansible_os_family == "Debian"
+  tags: [configuration, memcached, memcached-configuration]
 
-- name: set the max open file descriptors
-  sysctl: name=fs.file-max value={{ memcached_fs_file_max }} state=present
+- name: set system file descriptor limit
+  sysctl:
+    name: fs.file-max
+    value: "{{ memcached_fs_file_max }}"
+    state: present
+  notify: reload sysctl
+  when: memcached_fs_file_max != false
+  tags: [configuration, memcached, memcached-fs-file-max]
 
-- name: start and enable the memcached service
-  service: name=memcached state=started enabled=yes
+- name: set system ip port limits
+  sysctl:
+    name: net.ipv4.ip_local_port_range
+    value: "{{ memcached_net_ipv4_ip_local_port_range }}"
+    state: present
+  notify: reload sysctl
+  when: memcached_net_ipv4_ip_local_port_range != false
+  tags: [configuration, memcached, memcached-local-port-range]
+
+- name: start and enable service
+  service:
+    name: memcached
+    state: started
+    enabled: yes
+  tags: [configuration, memcached, memcached-start-enable-service]

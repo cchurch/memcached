@@ -1,8 +1,10 @@
 ---
-
-memcached_host: 0.0.0.0
+# defaults file for memcached
+memcached_logfile: /var/log/memcached.log
+memcached_host: 127.0.0.1
 memcached_port: 11211
-memcached_max_conn: 1024
-memcached_cache_size: 64
-memcached_fs_file_max: 756024
-memcached_options: ""
+memcached_max_connections: 1024
+memcached_memory_cap: 64
+memcached_options: ''
+memcached_fs_file_max: false
+memcached_net_ipv4_ip_local_port_range: false
